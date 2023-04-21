@@ -1,0 +1,45 @@
+*ALGORITHME DU ROBOT*
+---------------------
+
+avancer = mot1 - mot2
+reculer = mot2 - mot1
+gauche = a*mot1 - b*mot2 ---> avec a<b
+droite = a*mot1 - b*mot2 ---> avec a>b
+Asservissement  = lidar + accéléromètre + mot1 + mot2
+
+--------------------
+
+Cas 0 : panneau devant & ligne à droite
+    -> maintenir la droite sans la dépasser (asservissement sans dépassement / rapide)
+    -> avancer tant qu'il y a un panneau devant
+    => si plus de panneau : Cas 2
+
+Cas 1 : panneau devant & ligne à gauche
+    -> maintenir la gauche sans la dépasser (asservissement sans dépassement / rapide)
+    -> avancer tant qu'il y a un panneau devant
+    => si plus de panneau : Cas 3
+
+Cas 2 : pas de panneau en face et ligne à droite
+    -> avancer droit de 30 cm (asservissement)
+    -> mesurer la distance à gauche
+    => si la distance > 50cm : gauche avec b=0 --> Cas 1
+    => Si la distance = d < 50 cm : gauche avec b!=0 --> Cas 4
+
+Cas 3 : pas de panneau en face et ligne à gauche
+    -> avancer droit de 30 cm (asservissement)
+    -> mesurer la distance à droite
+    => si la distance > 50cm : droite avec a=0 --> Cas 0
+    => Si la distance = d < 50 cm : droite avec a!=0 --> Cas 5
+
+Cas 4 : Bas du panneau et dernier virage à gauche
+    -> Avancer tant que l'on voit la panneau
+    -> Quand on ne voit plus de panneau : avancer de 30cm + droite/2
+    -> arreter les brosses et pompe
+    -> avancer vers le haut jusqu'au bord + 30cm
+
+Cas 5 : Bas du panneau et dernier virage à droite
+    -> Avancer tant que l'on voit la panneau
+    -> Quand on ne voit plus de panneau : avancer de 30cm + gauche/2
+    -> arreter les brosses et pompe
+    -> avancer vers le haut jusqu'au bord + 30cm
+
